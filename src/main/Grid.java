@@ -21,8 +21,8 @@ public class Grid {
     private static final int MAX_COORDINATE_VALUE = 50;
     private static final int MAX_INSTRUCTION_LENGTH = 100;
 
-    public Grid() {
-        this.loadFromFile("src/resources/input.txt");
+    public Grid(String filePath) {
+        this.loadFromFile(filePath);
     }
 
     public void moveRobots() {
@@ -73,7 +73,7 @@ public class Grid {
         return new Robot(robotX, robotY, orientation, instructions, this);
     }
 
-    protected void loadFromFile(String filePath) {
+    public void loadFromFile(String filePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line = reader.readLine();
             getGridSize(line);

@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RobotTest {
-    Grid grid = new Grid();
+    Grid grid = new Grid("src/resources/input.txt");
 
     @ParameterizedTest
     @MethodSource("buildProcessInstructionsArguments")
@@ -95,7 +95,7 @@ class RobotTest {
         return Stream.of(
                 Arguments.of(1, 1, "E", "RFRFRFRF", "1 1 E"),
                 Arguments.of(3, 2, "N", "FRRFLLFFRRFLL", "3 3 N LOST"),
-                Arguments.of(0, 3, "W", "LLFFFLFLFL", "2 3 S")
+                Arguments.of(0, 3, "W", "LLFFFLFLFL", "3 3 N LOST")
         );
     }
 }

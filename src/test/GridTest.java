@@ -1,6 +1,7 @@
 package test;
 
 import main.Grid;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -12,7 +13,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GridTest {
-    Grid grid = new Grid();
+    Grid grid = new Grid("src/resources/input.txt");
 
     @ParameterizedTest
     @MethodSource("buildParseCoordinatedArguments")
@@ -69,6 +70,13 @@ class GridTest {
     @MethodSource("buildValidateInstructionLengthArguments")
     void shouldProcessInstructions(String instructions) {
         assertThrows(IllegalArgumentException.class, () -> grid.validateInstructionLength(instructions));
+    }
+
+    @Test
+    void shouldLoadFromFile() {
+        assertNotNull(grid.getMaxX());
+        assertNotNull(grid.getMaxY());
+        assertNotNull(grid.getRobots());
     }
 
     private static Stream<Arguments> provideInvalidInput() {
