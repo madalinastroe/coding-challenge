@@ -1,4 +1,7 @@
+package main;
+
 import lombok.Data;
+import lombok.Setter;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -8,17 +11,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Setter
 @Data
 public class Grid {
     private Integer maxX;
     private Integer maxY;
     private List<Robot> robots = new ArrayList<>();
-    private final Set<List<Integer>> scents = new HashSet<>();
+    private Set<List<Integer>> scents = new HashSet<>();
     private static final int MAX_COORDINATE_VALUE = 50;
     private static final int MAX_INSTRUCTION_LENGTH = 100;
 
     public Grid() {
-        this.loadFromFile("src/input.txt");
+        this.loadFromFile("src/resources/input.txt");
     }
 
     public void moveRobots() {
@@ -27,16 +31,46 @@ public class Grid {
         }
     }
 
-    protected void addScent(int x, int y) {
+    public void addScent(int x, int y) {
         scents.add(List.of(x, y));
     }
 
-    protected boolean hasScent(int x, int y) {
+    public boolean hasScent(int x, int y) {
         return scents.contains(List.of(x,y));
     }
 
-    protected boolean isRobotStillOnGrid(int x, int y) {
+    public boolean isRobotStillOnGrid(int x, int y) {
         return x >= 0 && x <= maxX && y >= 0 && y <= maxY;
+    }
+
+    public void getGridSize(String firstLine) {
+        if (firstLine != null) {
+            String[] parts = firstLine.split(" ");
+            maxX = parseCoordinate(parts[0]);
+            maxY = parseCoordinate(parts[1]);
+        }
+    }
+
+    public void validateInstructionLength(String instructions) {
+        if (instructions.length() > MAX_INSTRUCTION_LENGTH) {
+            throw new IllegalArgumentException("Instruction length cannot exceed " + MAX_INSTRUCTION_LENGTH + " characters.");
+        }
+    }
+
+    public int parseCoordinate(String value) {
+        int coordinate = Integer.parseInt(value);
+        if (coordinate > MAX_COORDINATE_VALUE) {
+            throw new IllegalArgumentException("Coordinate value cannot exceed " + MAX_COORDINATE_VALUE + ".");
+        }
+        return coordinate;
+    }
+
+    private Robot createRobotFromInput(String[] position, String instructions) {
+        int robotX = parseCoordinate(position[0]);
+        int robotY = parseCoordinate(position[1]);
+        String orientation = position[2];
+
+        return new Robot(robotX, robotY, orientation, instructions, this);
     }
 
     protected void loadFromFile(String filePath) {
@@ -58,35 +92,5 @@ public class Grid {
         } catch (IllegalArgumentException e) {
             System.err.println("Invalid input: " + e.getMessage());
         }
-    }
-
-    private void getGridSize(String firstLine) {
-        if (firstLine != null) {
-            String[] parts = firstLine.split(" ");
-            maxX = parseCoordinate(parts[0]);
-            maxY = parseCoordinate(parts[1]);
-        }
-    }
-
-    private void validateInstructionLength(String instructions) {
-        if (instructions.length() > MAX_INSTRUCTION_LENGTH) {
-            throw new IllegalArgumentException("Instruction length cannot exceed " + MAX_INSTRUCTION_LENGTH + " characters.");
-        }
-    }
-
-    private int parseCoordinate(String value) {
-        int coordinate = Integer.parseInt(value);
-        if (coordinate > MAX_COORDINATE_VALUE) {
-            throw new IllegalArgumentException("Coordinate value cannot exceed " + MAX_COORDINATE_VALUE + ".");
-        }
-        return coordinate;
-    }
-
-    private Robot createRobotFromInput(String[] position, String instructions) {
-        int robotX = parseCoordinate(position[0]);
-        int robotY = parseCoordinate(position[1]);
-        String orientation = position[2];
-
-        return new Robot(robotX, robotY, orientation, instructions, this);
     }
 }

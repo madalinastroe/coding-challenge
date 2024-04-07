@@ -1,4 +1,7 @@
+package main;
+
 import lombok.*;
+import main.Grid;
 
 @Data
 public class Robot {
@@ -14,8 +17,7 @@ public class Robot {
     private Grid grid;
     private boolean isLost = false;
 
-
-    private void turnLeft() {
+    public void turnLeft() {
         orientation = switch (orientation) {
             case "N" -> "W";
             case "W" -> "S";
@@ -24,7 +26,7 @@ public class Robot {
         };
     }
 
-    private void turnRight() {
+    public void turnRight() {
         orientation = switch (orientation) {
             case "N" -> "E";
             case "E" -> "S";
@@ -33,7 +35,7 @@ public class Robot {
         };
     }
 
-    private void moveForward() {
+    public void moveForward() {
         int newX = x, newY = y;
 
         switch (orientation) {
@@ -67,6 +69,6 @@ public class Robot {
             }
         }
 
-        return String.format("%d %d %s %s", x, y, orientation, isLost ? "LOST" : "");
+        return String.format("%d %d %s %s", x, y, orientation, isLost ? "LOST" : "").trim();
     }
 }
