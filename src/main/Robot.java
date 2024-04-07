@@ -66,6 +66,8 @@ public class Robot {
                 case 'L' -> turnLeft();
                 case 'R' -> turnRight();
                 case 'F' -> moveForward();
+                default -> throw new IllegalArgumentException("Unknown instruction value");
+
             }
         }
 

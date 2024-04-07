@@ -24,6 +24,14 @@ class RobotTest {
     }
 
     @ParameterizedTest
+    @MethodSource("buildInvalidProcessInstructionsArguments")
+    void shouldThrowExceptionInvalidOperation(int initialX, int initialY, String initialOrientation, String instructions) {
+        Robot robot = new Robot(initialX, initialY, initialOrientation, instructions, grid);
+
+        assertThrows(IllegalArgumentException.class, robot::processInstructions);
+    }
+
+    @ParameterizedTest
     @MethodSource("buildTurnLeftArguments")
     void shouldTestTurnLeft(String initialOrientation, String expectedOrientation) {
         Robot robot = new Robot(0, 0, initialOrientation, "", grid);
@@ -47,7 +55,7 @@ class RobotTest {
 
     @ParameterizedTest
     @MethodSource("buildMoveForwardArguments")
-    void shouldTestMoveForward(int initialX, int initialY, String initialOrientation, int expectedX, int expectedY, boolean expectedIsLost, boolean hasScent) {
+    void shouldTestMoveForward(int initialX, int initialY, String initialOrientation, int expectedX, int expectedY, boolean expectedIsLost) {
         Robot robot = new Robot(initialX, initialY, initialOrientation, "", grid);
 
         robot.moveForward();
@@ -77,17 +85,10 @@ class RobotTest {
 
     private static Stream<Arguments> buildMoveForwardArguments() {
         return Stream.of(
-                // Within grid movements
-                Arguments.of(2, 2, "N", 2, 3, false, false),
-                Arguments.of(2, 2, "E", 3, 2, false, false),
-                Arguments.of(2, 2, "S", 2, 1, false, false),
-                Arguments.of(2, 2, "W", 1, 2, false, false),
-                // Edge cases without scent
-                Arguments.of(5, 5, "N", 5, 5, true, false),
-                Arguments.of(5, 5, "E", 5, 5, true, false),
-                // Edge cases with scent, robot should ignore the move
-                Arguments.of(5, 5, "N", 5, 5, true, true),
-                Arguments.of(0, 0, "S", 0, 0, true, true)
+                Arguments.of(2, 2, "N", 2, 3, false),
+                Arguments.of(2, 2, "S", 2, 1, false),
+                Arguments.of(5, 5, "N", 5, 5, true),
+                Arguments.of(5, 5, "E", 5, 5, true)
         );
     }
 
@@ -96,6 +97,14 @@ class RobotTest {
                 Arguments.of(1, 1, "E", "RFRFRFRF", "1 1 E"),
                 Arguments.of(3, 2, "N", "FRRFLLFFRRFLL", "3 3 N LOST"),
                 Arguments.of(0, 3, "W", "LLFFFLFLFL", "3 3 N LOST")
+        );
+    }
+
+    private static Stream<Arguments> buildInvalidProcessInstructionsArguments() {
+        return Stream.of(
+                Arguments.of(1, 1, "E", "RFRFRAFRF", "1 1 E"),
+                Arguments.of(3, 2, "N", "FVRRFLLFFRRFLL", "3 3 N LOST"),
+                Arguments.of(0, 3, "W", "LLFFCFLFLFL", "3 3 N LOST")
         );
     }
 }

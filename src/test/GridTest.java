@@ -27,7 +27,6 @@ class GridTest {
     @MethodSource("provideInvalidInput")
     void testMethodThrowsExceptionForInvalidInput(String input) {
         assertThrows(IllegalArgumentException.class, () -> grid.parseCoordinate(input));
-
     }
 
     @ParameterizedTest
