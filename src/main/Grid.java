@@ -16,10 +16,10 @@ import java.util.Set;
 public class Grid {
     private Integer maxX;
     private Integer maxY;
-    private List<Robot> robots = new ArrayList<>();
+    private final List<Robot> robots = new ArrayList<>();
     private Set<List<Integer>> scents = new HashSet<>();
-    private static final int MAX_COORDINATE_VALUE = 50;
-    private static final int MAX_INSTRUCTION_LENGTH = 100;
+    private final int MAX_COORDINATE_VALUE = 50;
+    private final int MAX_INSTRUCTION_LENGTH = 100;
 
     public Grid(String filePath) {
         this.loadFromFile(filePath);

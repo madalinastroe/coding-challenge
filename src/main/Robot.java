@@ -1,7 +1,6 @@
 package main;
 
 import lombok.*;
-import main.Grid;
 
 @Data
 public class Robot {
@@ -12,12 +11,12 @@ public class Robot {
     @NonNull
     private String orientation;
     @NonNull
-    private String instructions;
+    private final String instructions;
     @NonNull
     private Grid grid;
     private boolean isLost = false;
 
-    public void turnLeft() {
+    private void turnLeft() {
         orientation = switch (orientation) {
             case "N" -> "W";
             case "W" -> "S";
@@ -26,7 +25,7 @@ public class Robot {
         };
     }
 
-    public void turnRight() {
+    private void turnRight() {
         orientation = switch (orientation) {
             case "N" -> "E";
             case "E" -> "S";
@@ -35,7 +34,7 @@ public class Robot {
         };
     }
 
-    public void moveForward() {
+    private void moveForward() {
         int newX = x, newY = y;
 
         switch (orientation) {
