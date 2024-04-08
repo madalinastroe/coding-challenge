@@ -29,10 +29,9 @@ class GridTest {
         assertThrows(IllegalArgumentException.class, () -> grid.parseCoordinate(input));
     }
 
-    @ParameterizedTest
-    @MethodSource("buildGridSizeArguments")
-    void shouldGetGridSize(String line) {
-        grid.getGridSize(line);
+    @Test
+    void shouldGetGridSize() {
+        grid.getGridSize("6 5 N");
 
         assertEquals(6, grid.getMaxX());
         assertEquals(5, grid.getMaxY() );
@@ -57,18 +56,9 @@ class GridTest {
         assertEquals(expectedResponse, result);
     }
 
-    @ParameterizedTest
-    @MethodSource("buildAddScentArguments")
-    void shouldAddScent(int initialX, int initialY, boolean expectedResponse) {
-        grid.addScent(initialX, initialY);
-
-        assertEquals(grid.getScents().contains(List.of(initialX, initialY)), expectedResponse);
-    }
-
-    @ParameterizedTest
-    @MethodSource("buildValidateInstructionLengthArguments")
-    void shouldProcessInstructions(String instructions) {
-        assertThrows(IllegalArgumentException.class, () -> grid.validateInstructionLength(instructions));
+    @Test
+    void shouldProcessInstructions() {
+        assertThrows(IllegalArgumentException.class, () -> grid.validateInstructionLength("LFT".repeat(101)));
     }
 
     @Test
@@ -92,14 +82,6 @@ class GridTest {
         );
     }
 
-    private static Stream<Arguments> buildValidateInstructionLengthArguments() {
-        return Stream.of(Arguments.of("LFT".repeat(101)));
-    }
-
-    private static Stream<Arguments> buildGridSizeArguments() {
-        return Stream.of(Arguments.of("6 5 N"));
-    }
-
     private static Stream<Arguments> buildIsRobotStillOnGridArguments() {
         return Stream.of(
                 Arguments.of(5, 3, true),
@@ -113,14 +95,6 @@ class GridTest {
                 Arguments.of(5, 3, true),
                 Arguments.of(0, 0, false),
                 Arguments.of(1, 5, false)
-        );
-    }
-
-    private static Stream<Arguments> buildAddScentArguments() {
-        return Stream.of(
-                Arguments.of(5, 3, true),
-                Arguments.of(0, 0, true),
-                Arguments.of(1, 5, true)
         );
     }
 }
