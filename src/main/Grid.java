@@ -1,8 +1,5 @@
 package main;
 
-import lombok.Data;
-import lombok.Setter;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,8 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Setter
-@Data
 public class Grid {
     private Integer maxX;
     private Integer maxY;
@@ -23,6 +18,22 @@ public class Grid {
 
     public Grid(String filePath) {
         this.loadFromFile(filePath);
+    }
+
+    public Integer getMaxX() {
+        return maxX;
+    }
+
+    public Integer getMaxY() {
+        return maxY;
+    }
+
+    public List<Robot> getRobots() {
+        return robots;
+    }
+
+    public void setScents(Set<List<Integer>> scents) {
+        this.scents = scents;
     }
 
     public void moveRobots() {

@@ -1,18 +1,19 @@
 package main;
 
-import lombok.*;
-
-@Data
 public class Robot {
-    @NonNull
     private Integer x;
-    @NonNull
     private Integer y;
-    @NonNull
     private String orientation;
-    @NonNull
     private final String instructions;
-    @NonNull
+
+    public Robot(Integer x, Integer y, String orientation, String instructions, Grid grid) {
+        this.x = x;
+        this.y = y;
+        this.orientation = orientation;
+        this.instructions = instructions;
+        this.grid = grid;
+    }
+
     private Grid grid;
     private boolean isLost = false;
 
