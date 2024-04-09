@@ -1,5 +1,3 @@
-package main;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -74,7 +72,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        GameObjects gameObjects = loadFromFile("src/resources/input.txt");
+        GameObjects gameObjects = loadFromFile(args[0]);
 
         if (gameObjects != null) {
             runGame(gameObjects.robots);

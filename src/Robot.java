@@ -1,5 +1,3 @@
-package main;
-
 public class Robot {
     private Integer x;
     private Integer y;
